@@ -5,44 +5,44 @@
         <h2>{{ isEditing ? 'Görevi Düzenle' : 'Yeni Görev Ekle' }}</h2>
         <button class="close-btn" @click="$emit('close')">&times;</button>
       </div>
-      
+
       <div class="modal-body">
         <form @submit.prevent="saveTask">
           <div class="form-group">
             <label for="title">Başlık <span class="required">*</span></label>
-            <input 
-              id="title" 
-              v-model="taskForm.title" 
-              type="text" 
+            <input
+              id="title"
+              v-model="taskForm.title"
+              type="text"
               required
-              :class="{ 'error': validationErrors.title }"
-            >
+              :class="{ error: validationErrors.title }"
+            />
             <span v-if="validationErrors.title" class="error-message">
               {{ validationErrors.title }}
             </span>
           </div>
-          
+
           <div class="form-group">
             <label for="description">Açıklama <span class="required">*</span></label>
-            <textarea 
-              id="description" 
-              v-model="taskForm.description" 
-              rows="4" 
+            <textarea
+              id="description"
+              v-model="taskForm.description"
+              rows="4"
               required
-              :class="{ 'error': validationErrors.description }"
+              :class="{ error: validationErrors.description }"
             ></textarea>
             <span v-if="validationErrors.description" class="error-message">
               {{ validationErrors.description }}
             </span>
           </div>
-          
+
           <div class="form-group">
             <label for="priority">Öncelik <span class="required">*</span></label>
-            <select 
-              id="priority" 
-              v-model="taskForm.priority" 
+            <select
+              id="priority"
+              v-model="taskForm.priority"
               required
-              :class="{ 'error': validationErrors.priority }"
+              :class="{ error: validationErrors.priority }"
             >
               <option value="">-- Öncelik Seçin --</option>
               <option value="low">Düşük</option>
@@ -53,14 +53,14 @@
               {{ validationErrors.priority }}
             </span>
           </div>
-          
+
           <div class="form-group">
             <label for="status">Durum <span class="required">*</span></label>
-            <select 
-              id="status" 
-              v-model="taskForm.status" 
+            <select
+              id="status"
+              v-model="taskForm.status"
               required
-              :class="{ 'error': validationErrors.status }"
+              :class="{ error: validationErrors.status }"
             >
               <option value="">-- Durum Seçin --</option>
               <option value="notStarted">Başlanmadı</option>
@@ -71,7 +71,7 @@
               {{ validationErrors.status }}
             </span>
           </div>
-          
+
           <div class="button-group">
             <button type="button" class="cancel-btn" @click="$emit('close')">İptal</button>
             <button type="submit" class="save-btn">Kaydet</button>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue'
 
 export default {
   name: 'TaskModal',
@@ -91,8 +91,8 @@ export default {
     task: {
       type: Object,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   emits: ['close', 'save'],
   setup(props, { emit }) {
@@ -101,78 +101,78 @@ export default {
       title: '',
       description: '',
       priority: '',
-      status: ''
-    });
-    
+      status: '',
+    })
+
     const validationErrors = ref({
       title: '',
       description: '',
       priority: '',
-      status: ''
-    });
-    
-    const isEditing = computed(() => !!props.task?.id);
-    
+      status: '',
+    })
+
+    const isEditing = computed(() => !!props.task?.id)
+
     onMounted(() => {
       if (props.task) {
-        taskForm.value = { ...props.task };
+        taskForm.value = { ...props.task }
       } else {
         taskForm.value = {
           id: '',
           title: '',
           description: '',
           priority: '',
-          status: 'notStarted'
-        };
+          status: 'notStarted',
+        }
       }
-    });
-    
+    })
+
     const validateForm = () => {
-      let isValid = true;
+      let isValid = true
       validationErrors.value = {
         title: '',
         description: '',
         priority: '',
-        status: ''
-      };
-      
+        status: '',
+      }
+
       if (!taskForm.value.title.trim()) {
-        validationErrors.value.title = 'Başlık zorunludur';
-        isValid = false;
+        validationErrors.value.title = 'Başlık zorunludur'
+        isValid = false
       }
-      
+
       if (!taskForm.value.description.trim()) {
-        validationErrors.value.description = 'Açıklama zorunludur';
-        isValid = false;
+        validationErrors.value.description = 'Açıklama zorunludur'
+        isValid = false
       }
-      
+
       if (!taskForm.value.priority) {
-        validationErrors.value.priority = 'Öncelik seçimi zorunludur';
-        isValid = false;
+        validationErrors.value.priority = 'Öncelik seçimi zorunludur'
+        isValid = false
       }
-      
+
       if (!taskForm.value.status) {
-        validationErrors.value.status = 'Durum seçimi zorunludur';
-        isValid = false;
+        validationErrors.value.status = 'Durum seçimi zorunludur'
+        isValid = false
       }
-      
-      return isValid;
-    };
-    
+
+      return isValid
+    }
+
     const saveTask = () => {
       if (validateForm()) {
-        emit('save', { ...taskForm.value });
+        emit('save', { ...taskForm.value })
       }
-    };
-    
+    }
+
     return {
       taskForm,
       validationErrors,
       isEditing,
-      saveTask
-    };
-  }
-};
+      saveTask,
+    }
+  },
+}
 </script>
 
 <style scoped>
@@ -240,7 +240,7 @@ label {
   color: #f44336;
 }
 
-input[type="text"],
+input[type='text'],
 textarea,
 select {
   width: 100%;
@@ -250,10 +250,10 @@ select {
   font-size: 14px;
 }
 
-input[type="text"]:focus,
+input[type='text']:focus,
 textarea:focus,
 select:focus {
-  border-color: #2196F3;
+  border-color: #2196f3;
   outline: none;
 }
 
@@ -297,7 +297,7 @@ select.error {
 }
 
 .save-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
@@ -309,13 +309,13 @@ select.error {
   .modal-content {
     width: 90%;
   }
-  
+
   .button-group {
     flex-direction: column;
   }
-  
+
   .button-group button {
     width: 100%;
   }
 }
-</style> 
+</style>

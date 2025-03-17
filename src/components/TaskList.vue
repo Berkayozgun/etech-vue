@@ -65,11 +65,11 @@ const deleteTask = (taskId) => {
 const onDragEnd = (evt) => {
   if (evt.moved) {
     const getStatusFromIndex = (index) => {
-        const columnCount = 3
-        return ['notStarted', 'inProgress', 'completed'][
-          Math.floor(index / Math.ceil(filteredTasks.value.length / columnCount))
-        ]
-      }
+      const columnCount = 3
+      return ['notStarted', 'inProgress', 'completed'][
+        Math.floor(index / Math.ceil(filteredTasks.value.length / columnCount))
+      ]
+    }
     const movedTask = evt.moved.element
     const newStatus = getStatusFromIndex(evt.moved.newIndex)
     if (movedTask.status !== newStatus) {
@@ -235,7 +235,7 @@ onMounted(() => {
   font-size: 2.5rem;
 }
 .no-tasks-content p {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .search-input {
